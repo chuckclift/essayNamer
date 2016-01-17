@@ -98,7 +98,11 @@ class DemoService(object):
         """
         try:
             profileJson = self.service.getProfile(text)
-            return json.dumps(profileJson)
+            profileJson['report'] = ["blagoosa", "flintoozle", "idkistan"]
+    
+            jsonString = json.dumps(profileJson)
+            print(jsonString) 
+            return jsonString 
         except Exception as e:
             print "ERROR: %s" % e
             return str(e)
