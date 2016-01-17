@@ -1,13 +1,14 @@
 ---
 declared-services:
   personality-insights-service:
-    label: personality_insights
+    label: essaynamer
     plan: standard
 
 applications:
-- name: personality-insights-python
+- name: essaynamer
   command: python server.py
   path: .
   memory: 256M
   services:
   - personality-insights-service
+  - insight
