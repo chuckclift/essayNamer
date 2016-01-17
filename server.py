@@ -23,7 +23,7 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 
 
-class PersonalityInsightsService:
+class InsightsService:
     """Wrapper on the Personality Insights service"""
 
     def __init__(self, vcapServices):
@@ -40,9 +40,9 @@ class PersonalityInsightsService:
         if vcapServices is not None:
             print("Parsing VCAP_SERVICES")
             services = json.loads(vcapServices)
-            svcName = "personality_insights"
+            svcName = "concept_insights"# "personality_insights"
             if svcName in services:
-                print("Personality Insights service found!")
+                print("insights service found!")
                 svc = services[svcName][0]["credentials"]
                 self.url = svc["url"]
                 self.username = svc["username"]
@@ -55,10 +55,10 @@ class PersonalityInsightsService:
 
         if self.url is None:
             raise Exception("No Personality Insights service is bound to this app")
-        response = requests.post(self.url + "/v2/profile",
-                          auth=(self.username, self.password),
-                          headers = {"content-type": "text/plain"},
-                          data=text
+        response = requests.post(self.url + "/v2/graphs/wikipedia/en-20120601/annotate_text",            # profile",
+                          auth=(self.username, self.password),    # /graphs/wikipedia/en-20120601/annotate_text
+                           headers = {"content-type": "text/plain"},
+                           data=text
                           )
         try:
             return json.loads(response.text)
@@ -130,8 +130,8 @@ if __name__ == '__main__':
     }
 
     # Create the Personality Insights Wrapper
-    personalityInsights = PersonalityInsightsService(os.getenv("VCAP_SERVICES"))
+    insights = InsightsService(os.getenv("VCAP_SERVICES"))
 
     # Start the server
     print("Listening on %s:%d" % (HOST_NAME, PORT_NUMBER))
-    cherrypy.quickstart(DemoService(personalityInsights), "/", config=conf)
+    cherrypy.quickstart(DemoService(insights), "/", config=conf)
