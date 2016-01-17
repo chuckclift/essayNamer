@@ -77,9 +77,10 @@ $(document).ready(function() {
           showError(response.error);
         } else {
           $results.show();
-          showTraits(response);
-          showTextSummary(response);
-          showVizualization(response);
+          
+           // showTraits(response);
+           showTextSummary(response);
+           // showVizualization(response);
         }
 
       },
@@ -159,13 +160,17 @@ $(document).ready(function() {
   function showTextSummary(data) {
     console.log('showTextSummary()');
     var paragraphs = [
-      assembleTraits(data.tree.children[0]),
-      assembleFacets(data.tree.children[0]),
-      assembleNeeds(data.tree.children[1]),
-      assembleValues(data.tree.children[2])
+        ["beware of duck","beware of duck" ],
+        ["beware of duck","beware of duck" ],
+        ["beware of duck","beware of duck" ]
+//      assembleTraits(data.tree.children[0]),
+//      assembleFacets(data.tree.children[0]),
+//      assembleNeeds(data.tree.children[1]),
+//      assembleValues(data.tree.children[2])
     ];
     var div = $('.summary-div');
     div.empty();
+    
     paragraphs.forEach(function(sentences) {
       $('<p></p>').text(sentences.join(' ')).appendTo(div);
     });
