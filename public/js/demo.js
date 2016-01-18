@@ -159,20 +159,12 @@ $(document).ready(function() {
    */
   function showTextSummary(data) {
     console.log('showTextSummary()');
-    var paragraphs = [
-        ["beware of duck","beware of duck" ],
-        [data.report,"beware of duck" ],
-        ["beware of duck",data.report ]
-//      assembleTraits(data.tree.children[0]),
-//      assembleFacets(data.tree.children[0]),
-//      assembleNeeds(data.tree.children[1]),
-//      assembleValues(data.tree.children[2])
-    ];
     var div = $('.summary-div');
     div.empty();
 
     //data.report.forEach(function(title){$('<p></p>').text(title).appendTo(div);})
-    data.annotations.forEach(function(title){$('<p></p>').text(title.concept.label).appendTo(div);})
+    // data.annotations.forEach(function(title){$('<p></p>').text(title.concept.label).appendTo(div);})
+    data.titles.forEach(function(title){$('<p></p>').text(title).appendTo(div);})
     // $('<p></p>').text(data.report.join("\n")).appendTo(div);
     // paragraphs.forEach(function(sentences) {
       //$('<p></p>').text(data.report).appendTo(div);

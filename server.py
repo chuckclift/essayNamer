@@ -19,6 +19,7 @@ import os
 import cherrypy
 import requests
 import json
+from random import choice
 from mako.template import Template
 from mako.lookup import TemplateLookup
 
@@ -98,15 +99,41 @@ class DemoService(object):
         """
         try:
             profileJson = self.service.getProfile(text)
-            profileJson['report'] = ["blagoosa", "flintoozle", "idkistan"]
+            interesting = list({a["concept"]["label"] for a in profileJson["annotations"] 
+                                                                     if a["score"] > 0.615})
+        
+            titles = []
+
+            for i in range(100):
+                word1 = choice(interesting)
+                word2 = choice(interesting)
+                combo = choice([1,2,3,4,5,6])
+                if combo < 3:
+                    # the ####### of word 1 and word2
+                    prefixes = ["The exciting possibilities of ", 
+                                "The fascinating relationship between ",
+                                "The cause of "]
+                    titles.append( choice(prefixes) + word1  + " and " + word2)
+                if combo < 6:
+                    # word1 and word2: the 
+                    endings = [": the pivotal relationship",
+                               ": theory and practice",
+                               ": the core of the issue"]
+                    titles.append(word1 + " and " + word2 + choice(endings))
+                
+                if combo == 6:
+                    titles.append(word1 + " and " + word2)
+
+
+            profileJson["titles"] = titles # ["duck", "goose"]  # [get_title(interesting) for a in range(100)]
     
-            jsonString = json.dumps(profileJson)
-            print(jsonString) 
-            return jsonString 
+            return json.dumps(profileJson)
         except Exception as e:
             print "ERROR: %s" % e
             return str(e)
 
+            
+ 
 
 if __name__ == '__main__':
     lookup = TemplateLookup(directories=["templates"])
